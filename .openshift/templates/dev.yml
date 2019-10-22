@@ -79,12 +79,14 @@ objects:
             name: http
             protocol: TCP
           readinessProbe:
-            exec:
-              command:
-              - /bin/bash
-              - -c
-              - curl -s 'http://localhost:8080${READINESS_PATH}'
-                |grep -iq '${READINESS_RESPONSE}'
+            failureThreshold: 3
+            httpGet:
+              path: "${READINESS_PATH}"
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
         terminationGracePeriodSeconds: 60
     triggers:
     - imageChangeParams:
@@ -110,8 +112,4 @@ parameters:
 - description: 'URI to check for app health'
   name: READINESS_PATH
   required: true
-  value: '/'
-- description: 'String value expected back from readiness check'
-  name: READINESS_RESPONSE
-  required: true
-  value: 'Hello World!'
+  value: '/health'

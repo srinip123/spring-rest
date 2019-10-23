@@ -95,7 +95,7 @@ objects:
         - ${APPLICATION_NAME}
         from:
           kind: ImageStreamTag
-          name: ${APPLICATION_NAME}:latest
+          name: ${APPLICATION_NAME}:${IMAGE_TAG}
       type: ImageChange
     - type: ConfigChange
 parameters:
@@ -113,3 +113,6 @@ parameters:
   name: READINESS_PATH
   required: true
   value: '/health'
+- description: 'Version of the image to deploy'
+  name: IMAGE_TAG
+  required: true

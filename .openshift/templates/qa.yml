@@ -90,13 +90,14 @@ objects:
         terminationGracePeriodSeconds: 60
     triggers:
     - imageChangeParams:
-        automatic: false
+        automatic: true
         containerNames:
         - ${APPLICATION_NAME}
         from:
           kind: ImageStreamTag
           name: ${APPLICATION_NAME}:${IMAGE_TAG}
       type: ImageChange
+    - type: ConfigChange
 parameters:
 - description: The name for the application.
   name: APPLICATION_NAME
